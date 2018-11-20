@@ -1,0 +1,115 @@
+app-root {
+	color: gray;
+	font-family: 'Open Sans', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Roboto', sans-serif; 
+}
+
+.separator {
+    width: 102px;
+    border-bottom: 1px solid gray;
+    margin: 0 auto;
+}
+
+.separator-large {
+    width: 80%;
+    border-bottom: 1px solid gray;
+    margin: 0 auto;
+}
+
+/* Nav */
+nav {	
+	text-shadow: 0px 0px 1px #00000021;
+}
+
+nav a {
+	color: white;
+	background-color: #dc3545;
+	padding: 8px 16px;
+}
+
+.login {
+	display: flex;
+	background: gray;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 8px;
+    border-bottom-left-radius: 12px;
+}
+
+.login .btn {
+	float: right;
+}
+
+.login>div{
+	/* font-weight: 400; */
+	color: white;
+    padding: 6px 10px;
+    white-space: nowrap;
+	/* margin: 8px 32px; */
+}
+
+/* End of Nav */
+/* Header */
+.site-header h1 {
+	font-family: 'Merriweather', sans-serif;
+}
+
+.site-header {
+	margin: 64px 0;
+}
+/* End of Header */
+
+/* Section */
+section {
+	margin: 32px 0 ;
+}
+
+.section-header {
+	margin: 8px 0;
+}
+
+.section-content {
+	margin-top: 16px;
+}
+
+.switch-wrapper{
+	text-align: center;
+}
+
+.card-title {
+	 min-height: 58px;
+}
+/* End of Section */
+
+@media only screen and (max-width: 600px) {
+	nav {
+		margin-top: -32px;
+	}
+	nav a {
+        font-size: 0.8rem;
+    }
+    nav div {
+        margin: 16px 0;
+    }
+
+    .card-title {
+		font-size: 1rem;
+	 	/*min-height: 80px;*/
+	}
+	.card-text {
+		font-size: 0.6rem;
+	}
+
+	.login {
+		position: fixed;
+		top: unset;
+		bottom: 0;
+		z-index: 999;
+    	border-bottom-left-radius: 0px;
+    	border-top-left-radius: 12px;
+	}
+}

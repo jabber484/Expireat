@@ -1,20 +1,165 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+<div class="login">
+  <div>Shopping Cart</div>
+  <a class="btn btn-light" href="#" role="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2" (click)="UpdateCartList()">Checkout</a>
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
 
+<div class="container mb-5 collapse multi-collapse" id="collapseExample2">
+  <div class="row">
+    <div class="col col-12 section-header my-5">
+      <h3 class="text-center">Shopping Cart</h3>
+      <div class="separator"></div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col col-xs-6 col-md-3" data-wow-delay="0.5s" *ngFor="let item of finalList; index as i;">
+      <div class="card" style="margin-bottom: 16px;">
+        <img class="card-img-top" src="{{item.img}}" alt="">
+        <div class="card-body">
+          <h5 class="card-title" style="height: 58px">{{item.title}}</h5>
+          <p class="card-text">${{item.price}}<span class="float-right">{{item.date}}</span></p>
+          <div>
+            <!-- <button class="btn btn-dark" style="position: absolute; left:16px;" (click)="shoppingCart(0,i,1)">+</button> -->
+            <!-- <button class="btn btn-dark" style="position: absolute; right:16px;" (click)="shoppingCart(0,i,-1)">-</button> -->
+            <div class="text-center p-2">{{item.quantity}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mb-5 collapse multi-collapse show" id="collapseExample">
+  <div class="site-header text-center">
+    <!-- <h1 class="animated bounce">Expireat</h1> -->
+    <img src="/assets/Expereat_1.png" style="width:500px; max-width: 100%;">
+    <!-- <div class="separator"></div> -->
+  </div>
+
+  <nav class="row text-center">
+    <div class="col-6 col-md-3"><a href="#Food">Food</a></div>
+    <div class="col-6 col-md-3"><a href="#Drinks">Drinks</a></div>
+    <div class="col-6 col-md-3"><a href="#Ingredients">Ingredients</a></div>
+    <div class="col-6 col-md-3"><a href="#AboutUs">About Us</a></div>
+  </nav>
+
+  <section class="row" id="Food">
+    <div class="col col-12 section-header">
+      <h3 class="text-center">Food</h3>
+      <div class="separator"></div>
+    </div>
+
+    <div class="col col-12 section-content">
+      <div class="row">
+        <div class="col col-xs-6 col-md-3 wow fadeIn" data-wow-delay="0.5s" *ngFor="let item of data.food; index as i;">
+          <div class="card" style="margin-bottom: 16px;">
+            <img class="card-img-top" src="{{item.img}}" alt="">
+            <div class="card-body">
+              <h5 class="card-title">{{item.title}}</h5>
+              <p class="card-text">${{item.price}}<span class="float-right">{{item.date}}</span></p>
+              <div>
+                <button class="btn btn-dark" style="position: absolute; left:16px;" (click)="shoppingCart(0,i,1)">+</button>
+                <button class="btn btn-dark" style="position: absolute; right:16px;" (click)="shoppingCart(0,i,-1)">-</button>
+                <div class="text-center p-2">{{cart[0][i]}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="row" id="Drinks">
+    <div class="col col-12 section-header">
+      <h3 class="text-center">Drinks</h3>
+      <div class="separator"></div>
+    </div>
+
+    <div class="col col-12 section-content">
+      <div class="row">
+        <div class="col col-xs-6 col-md-3 wow fadeIn" data-wow-delay="0.2s" *ngFor="let item of data.drinks; index as i;">
+          <div class="card" style="margin-bottom: 16px;">
+            <img class="card-img-top" src="{{item.img}}" alt="">
+            <div class="card-body">
+              <h5 class="card-title">{{item.title}}</h5>
+              <p class="card-text">${{item.price}}<span class="float-right">{{item.date}}</span></p>
+              <div>
+                <button class="btn btn-dark" style="position: absolute; left:16px;" (click)="shoppingCart(1,i,1)">+</button>
+                <button class="btn btn-dark" style="position: absolute; right:16px;" (click)="shoppingCart(1,i,-1)">-</button>
+                <div class="text-center p-2">{{cart[1][i]}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="row" id="Ingredients">
+    <div class="col col-12 section-header">
+      <h3 class="text-center">Ingredients</h3>
+      <div class="separator"></div>
+    </div>
+
+    <div class="col col-12 section-content">
+      <div class="row">
+        <div class="col col-xs-6 col-md-3 wow fadeIn" data-wow-delay="0.2s" *ngFor="let item of data.ingredients; index as i;">
+          <div class="card" style="margin-bottom: 16px;">
+            <img class="card-img-top" src="{{item.img}}" alt="">
+            <div class="card-body">
+              <h5 class="card-title">{{item.title}}</h5>
+              <p class="card-text">${{item.price}}<span class="float-right">{{item.date}}</span></p>
+              <div>
+                <button class="btn btn-dark" style="position: absolute; left:16px;" (click)="shoppingCart(2,i,1)">+</button>
+                <button class="btn btn-dark" style="position: absolute; right:16px;" (click)="shoppingCart(2,i,-1)">-</button>
+                <div class="text-center p-2">{{cart[2][i]}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="row" id="AboutUs">
+    <div class="col col-12 section-header">
+      <h3 class="text-center">About Us</h3>
+      <div class="separator"></div>
+    </div>
+
+    <div class="col col-12 section-content">
+      <div class="row">
+        <div class="col col-12 col-md-4">
+          <h5 class="text-center">Who are we?</h5>
+          <div class="separator"></div>
+
+          <div class="text-center my-3">
+            <img style="width: 120px" src="https://www6.cuhk.edu.hk/WYS/frs/rulesWYSHome1stPart.gif"><br><br>
+            We are groups of student from <br>Wu Yee Sun College of CUHK.<br>
+            We aim to reduce food waste.
+          </div>
+        </div>
+        <div class="col col-12 col-md-4">
+          <h5 class="text-center">Our Parnter</h5>
+          <div class="separator"></div>
+
+          <div class="text-center my-3">
+            <img style="width: 120px" src="https://scontent.fhkg3-1.fna.fbcdn.net/v/t1.0-9/37796174_1736897799734530_6308896706842853376_o.jpg?_nc_cat=100&_nc_ht=scontent.fhkg3-1.fna&oh=8248522b14618a3feb24948b39eb6596&oe=5C77526D"><br><br>
+            We source our products from <a href="">GreenPrice</a>.<br>
+            They are a brilliant team with similar idea. 
+          </div>
+        </div>
+        <div class="col col-12 col-md-4">
+          <h5 class="text-center">Where to find us?</h5>
+          <div class="separator"></div>
+
+          <div class="text-center my-3">
+            <img style="padding: 32px 0;width: 120px" src="/assets/Expereat_1.png"><br><br>
+            <a href="#">Click me</a> for our facebook page<br>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
