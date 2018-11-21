@@ -23,6 +23,7 @@ export class AppComponent implements OnInit{
 		],
 	};
 
+	cartIsEmpty = true;
 	finalList = [];
 
 	ngOnInit() {
@@ -36,18 +37,21 @@ export class AppComponent implements OnInit{
   	}
 
   	shoppingCart(which, i, v){
-  		// let list = which == 0 ? this.food : which == 1 ? this.drinks : this.ingredients;
   		this.cart[which][i] = this.cart[which][i] == null ? 0 : this.cart[which][i] + v < 0 ? 0 : this.cart[which][i] + v;
   		console.log(this.cart);
   	}
 
   	UpdateCartList(){
+		this.cartIsEmpty = true;
   		this.finalList = [];
   		for (var i = 0, len = this.cart.length; i < len; i++) {
 	    	for (var j= 0, lenj = this.cart[i].length; j < lenj; j++) {
-		  		if(this.cart[i][j] > 0) this.finalList.push( 
-		  			Object.assign( {}, this.data[Object.keys(this.data)[i]][j], {quantity: this.cart[i][j]} )
-		  		);
+		  		if(this.cart[i][j] > 0) {
+		  			this.finalList.push( 
+			  			Object.assign( {}, this.data[Object.keys(this.data)[i]][j], {quantity: this.cart[i][j]} )
+			  		);
+		  			this.cartIsEmpty = false;
+		  		}
 			}
 		}
   	}

@@ -130,4 +130,8 @@ section {
     	border-bottom-left-radius: 0px;
     	border-top-left-radius: 12px;
 	}
+
+	.personal-form {
+		margin-bottom: 32px;
+	}
 }
