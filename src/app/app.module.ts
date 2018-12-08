@@ -1,19 +1,21 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 
 import { DataTablesModule } from 'angular-datatables';
 
-import { AppComponent } from './app.component';
+import { Login } from './app.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    Login,
   ],
   imports: [
     BrowserModule,
   	DataTablesModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [Login],
+  // entryComponents: [LandingComponent]
 })
 export class AppModule { }
