@@ -3,3 +3,7 @@ html {
 	overflow: hidden;
   	font-size: .875rem;
 }
+
+.section-subtitle {
+  border-top: 0.15rem solid #000000a8;
+}
