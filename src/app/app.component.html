@@ -1,24 +1,24 @@
 <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-  <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">CSCI2720 - Project</a>
+  <div class="navbar-brand col-sm-3 col-md-2 mr-0"> CSCI2720 - Project</div>
   <!-- <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search"> -->
   <ul class="navbar-nav pr-3 nav col-sm-9 col-md-10">
     <li class="nav-item text-nowrap">
+      <div class="d-inline d-sm-none my-2 mx-3 float-left text-white" (click)="moblieNavToggle()"><i class="mx-1 fas fa-bars"></i> {{currentSection}}</div>
       <a class="d-inline nav-link float-right" href="#" *ngIf="isAuth">Sign out</a>
-      <div class="d-inline my-2 mx-3 float-right" style="color:white;" *ngIf="isAuth">Signed in as {{username}}</div>
-
-      <a class="d-inline nav-link float-right" href="#" *ngIf="!isAuth">Sign in</a>
+      <div class="d-inline my-2 mx-3 float-right text-white" *ngIf="isAuth">Signed in as {{username}}</div>
     </li>
   </ul>
 </nav>
 
 <div class="container-fluid" *ngIf="isAuth">
   <div class="row">
-    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+    <nav [ngClass]="{'col-md-2 d-md-block bg-light sidebar': true, 'd-none': !showMobileNav}">
       <div class="sidebar-sticky">
+        <div class="spacer pt-5 d-sm-none"></div>
         <ul class="nav flex-column" *ngFor="let catagory of objectKeys(siteNavigation); let i = index">
           <h6 [ngClass]="{'sidebar-heading d-flex justify-content-between align-items-center px-3 mb-1 text-muted': true, 'mt-4': i>0}">{{catagory}}</h6>
           <li class="nav-item" *ngFor="let section of siteNavigation[catagory];let j = index">
-            <a [ngClass]="{'nav-link': true, 'active': currentSection == catagory && currentIndex == j}" href="#" (click)="navigation_event_click(catagory,j)">
+            <a [ngClass]="{'nav-link': true, 'active': currentSection == catagory && currentIndex == j}" href="#{{stringToID(section)}}" (click)="navigation_event_click(catagory,j);moblieNavToggle()">
               <i class="mx-1 fas fa-angle-double-right"></i>
               {{section}}
             </a>
@@ -27,10 +27,13 @@
       </div>
     </nav>
 
-    <main role="main" class="col-md-10 ml-auto px-4" [ngSwitch]="currentSection">
-      <app-event class="py-3 mt-5 mt-sm-0" *ngSwitchCase="'EVENT CATALOG'"></app-event>
-      <app-admin class="py-3 mt-5 mt-sm-0" *ngSwitchCase="'ADMIN FEATURE'"></app-admin>
-      <app-about-us class="py-3 mt-5 mt-sm-0" *ngSwitchCase="'ABOUT THIS PROJECT'"></app-about-us>
+    <main class="col-md-10 ml-auto px-4">
+      <div class="spacer pt-5 d-sm-none"></div>
+      <div [ngSwitch]="currentSection">
+        <app-event *ngSwitchCase="'EVENT CATALOG'"></app-event>
+        <app-admin *ngSwitchCase="'ADMIN FEATURE'"></app-admin>
+        <app-about-us *ngSwitchCase="'ABOUT THIS PROJECT'"></app-about-us>
+      </div>
     </main>
    </div>
 </div>

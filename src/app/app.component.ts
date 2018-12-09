@@ -8,8 +8,11 @@ import { Component, OnInit } from '@angular/core';
 	]
 })
 export class Login implements OnInit{
+	print = console.log;
 	objectKeys = Object.keys;
-	currentSection = "EVENT CATALOG"
+
+	showMobileNav = false;
+	currentSection = "ADMIN FEATURE"
 	currentIndex = 0
 
   	isAuth = true
@@ -17,12 +20,19 @@ export class Login implements OnInit{
 
 	siteNavigation = {
 		"EVENT CATALOG": ["Event List"],
-		"ADMIN FEATURE": ["Flush Data", "Upload CSV"],
-		"ABOUT THIS PROJECT": ["Workload Distribution", "Basic “How-To”",  "Data Schemas", "Frameworks & Libraries", "Academic Honesty"]
+		"ADMIN FEATURE": ["Event data","User data", "Flush Data", "Upload CSV"],
+		"ABOUT THIS PROJECT": ["Workload Distribution", "Basic How-To", "Data Schemas", "Frameworks & Libraries", "Academic Honesty", "To-Do"]
 	}
-
 	
 	ngOnInit() {
+  	}
+
+  	moblieNavToggle(){
+  		this.showMobileNav = !this.showMobileNav;
+  	}
+
+  	stringToID(input){
+		return input.replace(" ", "").toLowerCase();
   	}
 
   	navigation_event_click(section, index){

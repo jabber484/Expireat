@@ -1,3 +1,83 @@
-<p>
-  admin works!
-</p>
+<h1 class="section-title" id="eventdata">Event Data</h1>
+<div class="section-subtitle">CRUD event data</div>
+<div class="section-content">
+	<table datatable [dtOptions]="dtOptions" class="table">
+	  <thead>
+	    <tr>
+	      <th scope="col">Activity name</th>
+	      <th scope="col">Type</th>
+	      <th scope="col">Date</th>
+	      <th scope="col">Venue</th>
+	      <th scope="col">Quota</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	  	<tr>
+	      <td><input value="456" class="form-control" placeholder="Enter Value"></td>
+	      <td><input value="456" class="form-control" placeholder="Enter Value"></td>
+	      <td><input value="456" class="form-control" placeholder="Enter Value"></td>
+	      <td><input value="456" class="form-control" placeholder="Enter Value"></td>
+	      <td><input value="456" class="form-control" placeholder="Enter Value"></td>
+	    </tr>
+	    <tr>
+	      <td><input value="456" class="form-control" placeholder="Enter Value"></td>
+	      <td><input value="456" class="form-control" placeholder="Enter Value"></td>
+	      <td><input value="456" class="form-control" placeholder="Enter Value"></td>
+	      <td><input value="456" class="form-control" placeholder="Enter Value"></td>
+	      <td><input value="456" class="form-control" placeholder="Enter Value"></td>
+	    </tr>
+	  </tbody>
+	</table>
+</div>
+
+<h1 class="section-title" id="userdata">User Data</h1>
+<div class="section-subtitle">CRUD user data</div>
+<div class="section-content">
+	<table datatable [dtOptions]="dtOptions"  class="table">
+	  <thead>
+	    <tr>
+	      <th scope="col">Username</th>
+	      <th scope="col">Password Hash</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <tr>
+	      <td><input (change)="print(56)" value="456" class="form-control" placeholder="Enter Value"></td>
+	      <td><input (change)="print(56)" value="456" class="form-control" placeholder="Enter Value"></td>
+	    </tr>
+	    <tr>
+	      <td><input (change)="print(56)" value="456" class="form-control" placeholder="Enter Value"></td>
+	      <td><input (change)="print(56)" value="456" class="form-control" placeholder="Enter Value"></td>
+	    </tr>
+	  </tbody>
+	</table>
+</div>
+
+<h1 class="section-title" id="flushdata">Flush Data</h1>
+<div class="section-subtitle">Reload from the online dataset</div>
+<div class="section-content">
+	<div>
+		<div class="card bg-danger text-white">
+		  <div class="card-body">
+		    <h5 class="card-title">Warning</h5>
+		    <p class="card-text">The effect will be irreversible.</p>
+			<button class="btn btn-dark">Continue</button>
+		  </div>
+		</div>
+	</div>
+</div>
+
+<h1 class="section-title" id="uploadcsv">Upload CSV</h1>
+<div class="section-subtitle">Obtain event data from CSV file</div>
+<div class="section-content">
+	<div>
+		<div class="card bg-danger text-white">
+		  <div class="card-body">
+		    <h5 class="card-title">Warning</h5>
+		    <p class="card-text">This will override the current database.</p>
+			<button class="btn btn-info mr-2">Download CSV Sample</button>
+			<button class="btn btn-dark mr-2">Upload File</button>
+		  </div>
+		</div>
+	</div>
+</div>

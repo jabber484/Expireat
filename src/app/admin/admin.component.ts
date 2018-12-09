@@ -6,10 +6,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
+	dtOptions: DataTables.Settings = {};
 
-  constructor() { }
+	constructor() { }
 
-  ngOnInit() {
-  }
-
+	ngOnInit(): void {
+		this.dtOptions = {
+			"columnDefs": [
+				{ "width": "20%", "targets": 0 }
+			],
+			"ordering": false,
+			"searching": false
+	    };
+	}
 }

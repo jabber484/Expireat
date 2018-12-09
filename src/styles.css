@@ -1,9 +1,32 @@
 /* You can add global styles to this file, and also import other style files */
 html {
-	overflow: hidden;
+	/*overflow: hidden;*/
   	font-size: .875rem;
 }
 
+body {
+	font-family: 'Roboto', sans-serif;
+}
+
+.section-title:first-child {
+	margin: 0;
+	padding-top: 4rem;
+}
+
+.section-title {
+	margin: 0;
+	font-size: 2rem;
+    font-weight: 300;
+    line-height: 1.2;
+    margin-top: 1rem;
+}
+
 .section-subtitle {
-  border-top: 0.15rem solid #000000a8;
+    margin-top: 0.1rem;
+    margin-bottom: 0.875rem;
+	border-top: 0.15rem solid #000000a8;
+}
+
+.section-content {
+	margin-bottom: 1rem;
 }
