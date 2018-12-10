@@ -10,6 +10,7 @@ export class AboutUSComponent implements OnInit {
   	["Angular 7", "https://angular.io"],
     ["Bootstrap 4", "https://getbootstrap.com"],
     ["Angular Datatable", "https://l-lin.github.io/angular-datatables/"],
+    ["Font Awesome (Icon)", "https://fontawesome.com"],
     ["Roboto (Font)", "https://fonts.google.com/"],
   ]
 

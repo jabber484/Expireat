@@ -7,12 +7,12 @@ import { Component, OnInit } from '@angular/core';
 		'./app.component.css',
 	]
 })
-export class Login implements OnInit{
+export class AppComponent implements OnInit{
 	print = console.log;
 	objectKeys = Object.keys;
 
 	showMobileNav = false;
-	currentSection = "ADMIN FEATURE"
+	currentSection = "EVENT CATALOG"
 	currentIndex = 0
 
   	isAuth = true

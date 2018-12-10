@@ -8,6 +8,10 @@ body {
 	font-family: 'Roboto', sans-serif;
 }
 
+table {
+	width: 100% !important;
+}
+
 .section-title:first-child {
 	margin: 0;
 	padding-top: 4rem;

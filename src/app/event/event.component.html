@@ -1,22 +1,32 @@
-<h1 class="section-title" id="eventlist">Event List</h1>
-<div class="section-subtitle"><kbd><kbd>Click</kbd></kbd> column to sort, <kbd><kbd>Shift</kbd> + <kbd>Click</kbd></kbd> to sort multiple column</div>
-<table datatable class="table">
-  <thead>
-    <tr>
-      <th scope="col">Activity name</th>
-      <th scope="col">Type</th>
-      <th scope="col">Date</th>
-      <th scope="col">Venue</th>
-      <th scope="col">Quota</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>456</td>
-      <td>456</td>
-      <td>456</td>
-      <td>456</td>
-      <td>456</td>
-    </tr>
-  </tbody>
-</table>
+<div [ngClass]="{'d-none': commentBoxToggle}">
+	<h1 class="section-title">Event List</h1>
+	<div class="section-subtitle"><kbd><kbd>Click</kbd></kbd> column to sort, <kbd><kbd>Shift</kbd> + <kbd>Click</kbd></kbd> to sort multiple column</div>
+	<table datatable [dtOptions]="dtOptions" class="table"></table>
+</div>
+<div [ngClass]="{'d-none': !commentBoxToggle}">
+	<h1 class="section-title" id="eventlist">{{currentEventName}}</h1>
+	<div class="section-subtitle"><a href="#" (click)="commentBoxToggle = false">< close</a></div>
+	<div>dfgfg</div>
+
+	<h1 class="section-title">Comment</h1>
+	<div class="section-subtitle"></div>
+	<div class="media mb-3">
+		<div class="media-body">
+			<h5 class="mt-0">Media heading</h5>
+			<div>
+				Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+			</div>
+		</div>
+	</div>
+	<div class="media mb-3">
+		<div class="media-body">
+			<h5 class="mt-0">Media heading</h5>
+			<div>
+				Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+			</div>
+		</div>
+	</div>
+
+	<textarea [value]="commentBuffer" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Enter Your Comment" (keyup)="commentBuffer = $event.target.value"></textarea>
+	<button class="btn btn-primary float-right my-3" (click)="submitComment()">Post</button>
+</div>
