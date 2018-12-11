@@ -9,6 +9,8 @@ import { AppComponent } from './app.component';
 import { EventComponent } from './event/event.component';
 import { AdminComponent } from './admin/admin.component';
 import { AboutUSComponent } from './about-us/about-us.component';
+import { LoginComponent } from './login/login.component';
+import { UserActionComponent } from './user-action/user-action.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +18,8 @@ import { AboutUSComponent } from './about-us/about-us.component';
     EventComponent,
     AdminComponent,
     AboutUSComponent,
+    LoginComponent,
+    UserActionComponent,
   ],
   imports: [
     BrowserModule,

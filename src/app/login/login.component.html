@@ -1,0 +1,16 @@
+<form class="text-center form-signin mt-5" (submit)="validate($event, uname, pw)">
+	<img class="login-logo mb-4" src="https://pbs.twimg.com/profile_images/929914737067831298/xSBE2CcI_400x400.jpg" alt="" width="100" height="100">
+	<h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+	<label for="inputEmail" class="sr-only">Username</label>
+	<input (keyup)="uname = $event.target.value" type="text" id="inputEmail" class="form-control" placeholder="Username" required="" autofocus="">
+	<label for="inputPassword" class="sr-only">Password</label>
+	<input (keyup)="pw = $event.target.value" type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+
+	<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+	<p class="mt-5 mb-3 text-muted">CSCI 2720</p>
+</form>
+<div class="msg-box mt-4">
+	<div [ngClass]="{'animated text-center card p-3': true, 'bounceInDown': msgToggle, 'bounceOutUp': !msgToggle, 'd-none': msg==null}">
+		<b>{{msg}}</b>
+	</div>
+</div>
