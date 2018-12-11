@@ -1,13 +1,20 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
+	private isAdmin = false
 	private isAuth = false
 	username = ""
 
-	constructor() { }
+	constructor() {	}
+
+	adminOverride(){
+		this.username = "Admin"
+		this.isAuth = true
+		this.isAdmin = true
+	}
 
 	login(uname,pw) {
 		console.log(uname, pw)
@@ -21,10 +28,16 @@ export class AuthService {
 	logout(){
 		this.username = ""
 		this.isAuth = false
+		this.isAdmin = false
 	}
 
 	getAuth(){
 
 		return this.isAuth;
+	}
+
+	getAdminStatus(){
+
+		return this.isAdmin;
 	}
 }

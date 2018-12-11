@@ -20,9 +20,14 @@ export class UserActionComponent implements OnInit {
 		"ABOUT THIS PROJECT": ["Workload Distribution", "Basic How-To", "Data Schemas", "Frameworks & Libraries", "Academic Honesty", "To-Do"]
 	}
 
-	constructor(private authService: AuthService) {}
+	constructor(private authService: AuthService) {
+		if(!this.authService.getAdminStatus()){
+			delete this.siteNavigation["ADMIN FEATURE"]
+		}
+	}
 	
 	ngOnInit() {
+
   	}
 
   	moblieNavToggle(){
