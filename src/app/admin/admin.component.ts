@@ -60,6 +60,22 @@ export class AdminComponent implements OnInit {
 			this.userData.push(Object.assign({}, this.userDataTemplate))
 		}
 	}
+	
+	// Data_get
+	loadDataFromSrc(which=null) {
+		if(which==null || which=="event"){
+			this.http.get(this.eventListURL).subscribe((data) => {
+				this.eventData = data['data']
+		    	this.eventData.push(Object.assign({}, this.eventDataTemplate))
+			});
+		}
+		if(which==null || which=="user"){
+		    this.http.get(this.userDataURL).subscribe((data) => { 
+		    	this.userData = data['data']
+		    	this.userData.push(Object.assign({}, this.userDataTemplate))
+			});
+		}
+	}
 
 	data_commit(which, i){
 		if(which=="event"){
@@ -86,21 +102,6 @@ export class AdminComponent implements OnInit {
 				this.loadDataFromSrc(which)
 			});
 		}		
-	}
-
-	loadDataFromSrc(which=null) {
-		if(which==null || which=="event"){
-			this.http.get(this.eventListURL).subscribe((data) => {
-				this.eventData = data['data']
-		    	this.eventData.push(Object.assign({}, this.eventDataTemplate))
-			});
-		}
-		if(which==null || which=="user"){
-		    this.http.get(this.userDataURL).subscribe((data) => { 
-		    	this.userData = data['data']
-		    	this.userData.push(Object.assign({}, this.userDataTemplate))
-			});
-		}
 	}
 
 	constructor(private http: HttpClient) { }
