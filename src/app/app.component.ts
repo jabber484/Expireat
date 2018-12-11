@@ -36,6 +36,7 @@ export class AppComponent implements OnInit{
   	}
 
   	navigation_event_click(section, index){
+  		this.showMobileNav = false;
   		this.currentSection = section;
   		this.currentIndex = index;
   	}

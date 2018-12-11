@@ -18,7 +18,7 @@
         <ul class="nav flex-column" *ngFor="let catagory of objectKeys(siteNavigation); let i = index">
           <h6 [ngClass]="{'sidebar-heading d-flex justify-content-between align-items-center px-3 mb-1 text-muted': true, 'mt-4': i>0}">{{catagory}}</h6>
           <li class="nav-item" *ngFor="let section of siteNavigation[catagory];let j = index">
-            <a [ngClass]="{'nav-link': true, 'active': currentSection == catagory && currentIndex == j}" href="#{{stringToID(section)}}" (click)="navigation_event_click(catagory,j);this.showMobileNav = false;">
+            <a [ngClass]="{'nav-link': true, 'active': currentSection == catagory && currentIndex == j}" href="#{{stringToID(section)}}" (click)="navigation_event_click(catagory,j);">
               <i class="mx-1 fas fa-angle-double-right"></i>
               {{section}}
             </a>

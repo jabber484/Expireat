@@ -73,8 +73,12 @@
 		  <div class="card-body">
 		    <h5 class="card-title">Warning</h5>
 		    <p class="card-text">This will override the current database.</p>
-			<a class="btn btn-info mr-2" _target="_blank" href="{{CSVsampleURL}}">Download CSV Sample</a>
-			<button class="btn btn-dark mr-2" (click)="uploadCSV()">Upload File</button>
+			<a class="btn btn-info mb-3" _target="_blank" href="{{CSVsampleURL}}">Download CSV Sample</a>
+			<!-- <button class="btn btn-dark mr-2" (click)="uploadCSV()">Upload File</button> -->
+			<div class="custom-file">
+			  <input type="file" class="custom-file-input" id="customFile" (change)="uploadCSV($event.target.files)">
+			  <label class="custom-file-label" for="customFile">{{ fileToUpload == null ? "Choose file" : fileToUpload.name}}</label>
+			</div>
 		  </div>
 		</div>
 	</div>

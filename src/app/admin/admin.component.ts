@@ -10,6 +10,7 @@ export class AdminComponent implements OnInit {
 	objectKeys = Object.keys;
 	eventdtOptions: DataTables.Settings = {};
 	userdtOptions: DataTables.Settings = {};
+	fileToUpload: File = null;
 
 	// sample
 	eventListURL = "/assets/eventList_sample.json";
@@ -35,9 +36,11 @@ export class AdminComponent implements OnInit {
       "pw": null
 	};
 
-	uploadCSV() {
-
-		this.loadDataFromSrc()
+	uploadCSV(file) {
+		this.fileToUpload = file.item(0);
+		console.log(this.fileToUpload)
+		// Upload
+			this.loadDataFromSrc()
 	}
 
 	flush_eventdata(){
