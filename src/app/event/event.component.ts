@@ -12,6 +12,9 @@ export class EventComponent implements OnInit {
 	commentBoxToggle = false
 	currentEventName = ""
 
+	host = "http://localhost:8080";
+	eventListURL = "/event";
+
   	constructor() { }
 
   	showCommentBox(name){
@@ -35,7 +38,9 @@ export class EventComponent implements OnInit {
 
 	ngOnInit() {
 		this.dtOptions = {
-			ajax: 'assets/eventList_sample.json',
+			ajax: this.host + this.eventListURL,
+			order: [[ 2, "desc" ]],
+			autoWidth: false,
 			columns: [{
 				title: 'Activity name',
 				data: 'name'
@@ -44,13 +49,14 @@ export class EventComponent implements OnInit {
 				data: 'type'
 			}, {
 				title: 'Date',
-				data: 'data'
+				data: 'date'
 			}, {
 				title: 'Venue',
 				data: 'venue'
 			}, {
-				title: 'Quota',
-				data: 'quota'
+				title: 'Contact',
+				data: 'contact',
+				width: "20%"
 			}],
 			rowCallback: (row: Node, data: any[] | Object, index: number) => {
 			const self = this;

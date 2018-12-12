@@ -17,6 +17,7 @@ export class AdminComponent implements OnInit {
 	fileToUpload: File = null;
 
 	// sample
+
 	eventListURL = "/assets/eventList_sample.json";
 	// userDataURL = "/assets/userData_sample.json";
 	CSVsampleURL = "/assets/userData_sample.json";
@@ -25,6 +26,7 @@ export class AdminComponent implements OnInit {
 	private userDataURL = 'http://localhost:8080/user';
 	flushDataURL = "/flush";
 	uploadCSVURL = "/csv";
+
 
 	eventData = [];
 	eventDataTemplate = {
@@ -40,11 +42,16 @@ export class AdminComponent implements OnInit {
       "pw": null
 	};
 
-	uploadCSV(file) {
-		this.fileToUpload = file.item(0);
-		console.log(this.fileToUpload)
+	uploadCSV(files) {
 		// Upload
-			this.loadDataFromSrc()
+		this.fileToUpload = files.item(0);
+		const formData: FormData = new FormData();
+      	formData.append('file', this.fileToUpload, this.fileToUpload.name);
+
+		this.http.post(this.uploadCSVURL, formData).subscribe((data) => {
+			console.log(data);
+			this.loadDataFromSrc("event")
+		});
 	}
 
 	flush_eventdata(){
@@ -83,11 +90,12 @@ export class AdminComponent implements OnInit {
 
 	data_commit(which, i){
 		if(which=="event"){
-			this.http.post(this.eventListURL + "set", { payload: this.eventData[i] }).subscribe((data) => {
+			this.http.post(this.eventListURL, { payload: this.eventData[i] }).subscribe((data) => {
 				this.loadDataFromSrc(which)
 			});
 		}
 		else if(which=="user"){
+
 			console.log(this.userData[i]);
 			return this.http.post(this.userDataURL,{
 				"username":this.userData[i]['username'],
@@ -106,17 +114,19 @@ export class AdminComponent implements OnInit {
 			// this.http.post(this.userDataURL + "set", { payload: this.userData[i] }).subscribe((data) => {
 				// this.loadDataFromSrc(which)
 			// });
+
 		}
 	}
 
 	data_delete(which, i){
 		let id = i;
 		if(which=="event"){
-			this.http.delete(this.eventListURL + "delete/" + id).subscribe((data) => {
+			this.http.delete(this.eventListURL + "/" + id).subscribe((data) => {
 				this.loadDataFromSrc(which)
 			});
 		}
 		else if(which=="user"){
+
 			// return this.http.delete(this.userDataURL,{
 			// 	"username": this.userData[id]['username'],
 			// 	"pw": this.userData[i]['pw']},httpOptions).subscribe(
@@ -133,9 +143,14 @@ export class AdminComponent implements OnInit {
 			// 	this.loadDataFromSrc(which)
 			// });
 				
+
 	}
 
-	constructor(private http: HttpClient) { }
+	constructor(private http: HttpClient) {
+		this.eventListURL = this.host + this.eventListURL
+		this.flushDataURL = this.host + this.flushDataURL
+		this.uploadCSVURL = this.host + this.uploadCSVURL
+	}
 
 	ngOnInit(): void {
 		this.loadDataFromSrc()
