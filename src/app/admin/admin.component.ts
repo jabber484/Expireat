@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient , HttpHeaders } from '@angular/common/http';
+
+const httpOptions ={
+	headers: new HttpHeaders({'Content-Type': 'application/json'})
+};
 
 @Component({
   selector: 'app-admin',
@@ -14,11 +18,11 @@ export class AdminComponent implements OnInit {
 
 	// sample
 	eventListURL = "/assets/eventList_sample.json";
-	userDataURL = "/assets/userData_sample.json";
+	// userDataURL = "/assets/userData_sample.json";
 	CSVsampleURL = "/assets/userData_sample.json";
 
 	// eventListURL = "/eventList/;
-	// userDataURL = "/userData/";
+	private userDataURL = 'http://localhost:8080/user';
 	flushDataURL = "/flush";
 	uploadCSVURL = "/csv";
 
@@ -84,9 +88,24 @@ export class AdminComponent implements OnInit {
 			});
 		}
 		else if(which=="user"){
-			this.http.post(this.userDataURL + "set", { payload: this.userData[i] }).subscribe((data) => {
-				this.loadDataFromSrc(which)
-			});
+			console.log(this.userData[i]);
+			return this.http.post(this.userDataURL,{
+				"username":this.userData[i]['username'],
+				"pw":this.userData[i]['pw']
+			},httpOptions).subscribe(
+				data => {
+					console.log(data['username']);
+					console.log(data['hpw']);
+					this.loadDataFromSrc(which)
+					//further action
+				},
+				error => {
+					console.log("Error in data commit.");
+				}
+			);
+			// this.http.post(this.userDataURL + "set", { payload: this.userData[i] }).subscribe((data) => {
+				// this.loadDataFromSrc(which)
+			// });
 		}
 	}
 
@@ -98,10 +117,22 @@ export class AdminComponent implements OnInit {
 			});
 		}
 		else if(which=="user"){
-			this.http.delete(this.userDataURL + "delete/" + id).subscribe((data) => {
-				this.loadDataFromSrc(which)
-			});
-		}		
+			// return this.http.delete(this.userDataURL,{
+			// 	"username": this.userData[id]['username'],
+			// 	"pw": this.userData[i]['pw']},httpOptions).subscribe(
+			// 		data =>{
+			// 			this.loadDataFromSrc(which);
+			// 		},
+			// 		error =>{
+			// 			console.log("Error in data delete.");
+			// 		}
+			// 	);
+			};
+			// console.log(id);
+			// this.http.delete(this.userDataURL + "delete/" + id).subscribe((data) => {
+			// 	this.loadDataFromSrc(which)
+			// });
+				
 	}
 
 	constructor(private http: HttpClient) { }

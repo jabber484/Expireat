@@ -1,14 +1,24 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+
+const httpOptions ={
+	headers: new HttpHeaders({'Content-Type': 'application/json'})
+};
 
 @Injectable({
   providedIn: 'root',
 })
+
 export class AuthService {
+	private userUrl = 'http://localhost:8080/user';
 	private isAdmin = false
 	private isAuth = false
 	username = ""
 
-	constructor() {	}
+	constructor(
+		private http: HttpClient
+	) {	}
 
 	adminOverride(){
 		this.username = "Admin"
@@ -18,10 +28,22 @@ export class AuthService {
 
 	login(uname,pw) {
 		console.log(uname, pw)
-		if(uname == "1"){
-			this.isAuth = true;
-		}
-
+		const url = `${this.userUrl}/login`;
+		return this.http.post(url,{
+			"uname": uname,
+			"pw": pw
+		},httpOptions).subscribe(
+			data => {
+				console.log(data['isAuth']);
+				this.isAuth = data['isAuth'];
+			},
+			error => {
+				console.log("Error")
+			}
+		);
+		// if(uname == "1"){
+		// 	this.isAuth = true;
+		// }
 		return this.isAuth;
 	}
 
