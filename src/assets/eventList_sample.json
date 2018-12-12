@@ -3,23 +3,23 @@
     {
       "name": "Nigga",
       "type": 2,
-      "data": 3,
+      "date": 3,
       "venue": 4,
-      "quota": 5
+      "contact": 5
     },
     {
       "name": 1,
       "type": 2,
-      "data": 3,
+      "date": 3,
       "venue": 4,
-      "quota": 5
+      "contact": 5
     },
     {
       "name": 1,
       "type": 2,
-      "data": 3,
+      "date": 3,
       "venue": 4,
-      "quota": 5
+      "contact": 5
     }
   ]
 }

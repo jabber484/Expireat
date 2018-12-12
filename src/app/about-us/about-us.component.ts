@@ -18,7 +18,7 @@ export class AboutUSComponent implements OnInit {
     ["Backend", "Whole thing"],
     ["CRUD Trigger", "Admin page CRUD"],
     ["Online Database", "Serializate online data"],
-    ["Moblie Navigation", "No idea what to do now"],
+    ["Visible Response", "Visible Ajax result"],
   ]
 
   constructor() { }
