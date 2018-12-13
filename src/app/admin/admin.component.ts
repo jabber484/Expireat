@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient , HttpHeaders } from '@angular/common/http';
+import {RequestOptions, Request, RequestMethod} from '@angular/http';
 
 const httpOptions ={
 	headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -126,10 +127,20 @@ export class AdminComponent implements OnInit {
 			});
 		}
 		else if(which=="user"){
-
-			// return this.http.delete(this.userDataURL,{
+			return this.http.delete(this.userDataURL+ "/" + this.userData[id]['username'] 
+									+ "/" + this.userData[i]['pw'], httpOptions).subscribe(
+					data =>{
+						this.loadDataFromSrc(which);
+					},
+					error =>{
+						console.log("Error in data delete.");
+					}
+				);
+			// return this.http.delete(this.userDataURL,new RequestOptions({
+			// 	headers: new HttpHeaders({'Content-Type': 'application/json'}),
+			// 	body: 
 			// 	"username": this.userData[id]['username'],
-			// 	"pw": this.userData[i]['pw']},httpOptions).subscribe(
+			// 	"pw": this.userData[i]['pw']}).subscribe(
 			// 		data =>{
 			// 			this.loadDataFromSrc(which);
 			// 		},
