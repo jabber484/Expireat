@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { 	Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 const httpOptions ={
 	headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -14,7 +14,9 @@ export class AuthService {
 	private userUrl = 'http://localhost:8080/user';
 	private isAdmin = false
 	private isAuth = false
+
 	username = ""
+	id = ""
 
 	constructor(
 		private http: HttpClient
@@ -32,23 +34,19 @@ export class AuthService {
 		return this.http.post(url,{	
 			"uname": uname,
 			"pw": pw
-		},httpOptions).subscribe(
-			data => {
-				console.log(data['isAuth']);
+		},httpOptions).pipe(
+			map(data => {
+				console.log(data);
 				this.isAuth = data['isAuth'];
-			},
-			error => {
-				console.log("Error")
+				this.username = data['userName'];
+				this.id = data['userId'];
 			}
-		);
-		// if(uname == "1"){
-		// 	this.isAuth = true;
-		// }
-		return this.isAuth;
+		))
 	}
 
 	logout(){
 		this.username = ""
+		this.id = ""
 		this.isAuth = false
 		this.isAdmin = false
 	}

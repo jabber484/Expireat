@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, OnDestroy, Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { HttpClient , HttpHeaders } from '@angular/common/http';
+import { DataTableDirective } from 'angular-datatables';
+import { Subject } from 'rxjs';
 
 const httpOptions ={
 	headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -10,37 +12,42 @@ const httpOptions ={
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css']
 })
-export class AdminComponent implements OnInit {
+export class AdminComponent implements AfterViewInit, OnDestroy, OnInit {
 	objectKeys = Object.keys;
 	eventdtOptions: DataTables.Settings = {};
 	userdtOptions: DataTables.Settings = {};
 	fileToUpload: File = null;
 
+	@ViewChildren(DataTableDirective)
+	dtElements: QueryList<DataTableDirective>;
+	dtTrigger: Subject<DataTableDirective>[] = [new Subject(),new Subject()];
+
 	// sample
 	host = "http://localhost:8080";
-	eventListURL = "/assets/eventList_sample.json";
+	// eventListURL = "/assets/eventList_sample.json";
 	// userDataURL = "/assets/userData_sample.json";
 	CSVsampleURL = "/assets/userData_sample.json";
 
-	// eventListURL = "/eventList/;
+	eventListURL = "/event";
 	private userDataURL = 'http://localhost:8080/user';
-	flushDataURL = "/flush";
-	uploadCSVURL = "/csv";
+	flushDataURL = "/event/flush";
+	uploadCSVURL = "/event/csv";
 
-
-	eventData = [];
-	eventDataTemplate = {
-		"name": null,
-		"type": null,
-		"data": null,
-		"venue": null,
-		"quota": null
-	};
-	userData = [];
-	userDataTemplate = {
-      "username": null,
-      "pw": null
-	};
+	editorToggle = false
+	editorData = {}
+	// eventData = [];
+	// eventDataTemplate = {
+	// 	"name": null,
+	// 	"type": null,
+	// 	"date": null,
+	// 	"venue": null,
+	// 	"contact": null
+	// };
+	// userData = [];
+	// userDataTemplate = {
+ //      "username": null,
+ //      "pw": null
+	// };
 
 	uploadCSV(files) {
 		// Upload
@@ -63,29 +70,27 @@ export class AdminComponent implements OnInit {
 	}
 
 	data_add(which){
-		console.log(this.eventData, this.userData);
-		if(which=="event"){
-			this.eventData.push(Object.assign({}, this.eventDataTemplate))
-		}
-		else if(which=="user"){
-			this.userData.push(Object.assign({}, this.userDataTemplate))
-		}
+
+
+		// console.log(this.eventData, this.userData);
+		// if(which=="event"){
+		// 	this.eventData.push(Object.assign({}, this.eventDataTemplate))
+		// }
+		// else if(which=="user"){
+		// 	this.userData.push(Object.assign({}, this.userDataTemplate))
+		// }
 	}
 	
 	// Data_get
 	loadDataFromSrc(which=null) {
-		if(which==null || which=="event"){
-			this.http.get(this.eventListURL).subscribe((data) => {
-				this.eventData = data['data']
-		    	this.eventData.push(Object.assign({}, this.eventDataTemplate))
-			});
-		}
-		if(which==null || which=="user"){
-		    this.http.get(this.userDataURL).subscribe((data) => { 
-		    	this.userData = data['data']
-		    	this.userData.push(Object.assign({}, this.userDataTemplate))
-			});
-		}
+		this.dtElements.forEach((dtElement: DataTableDirective, index: number) => {
+		  	dtElement.dtInstance.then((dtInstance: any) => {
+		  		dtInstance.destroy();
+				// Call the dtTrigger to rerender again
+				this.dtTrigger[index].next();
+				console.log("Reload" + index)
+		  	});
+		});
 	}
 
 	data_commit(which, i){
@@ -146,6 +151,10 @@ export class AdminComponent implements OnInit {
 
 	}
 
+	fillEditor(which, colDef, data){
+		this.editorData = data;
+	}
+
 	constructor(private http: HttpClient) {
 		this.eventListURL = this.host + this.eventListURL
 		this.flushDataURL = this.host + this.flushDataURL
@@ -153,14 +162,77 @@ export class AdminComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.loadDataFromSrc()
+		var event_colDef = [
+			{
+				title: 'Activity name',
+				data: 'name'
+			}, {
+				title: 'Type',
+				data: 'type'
+			}, {
+				title: 'Date',
+				data: 'date'
+			}, {
+				title: 'Venue',
+				data: 'venue'
+			}, {
+				title: 'Contact',
+				data: 'contact',
+				width: "20%"
+			}
+		]
+		var user_colDef = [
+			{
+				title: 'Username',
+				data: 'username'
+			}, {
+				title: 'Password',
+				data: 'pw'
+			}
+		]
+
 		this.eventdtOptions = {
-			"ordering": false,
-			"searching": false
+			order: [[ 2, "desc" ]],
+			autoWidth: false,
+			ajax: this.eventListURL,
+			columns: event_colDef,
+			rowCallback: (row: Node, data: any[] | Object, index: number) => {
+				const self = this;
+				// Unbind first in order to avoid any duplicate handler
+				// (see https://github.com/l-lin/angular-datatables/issues/87)
+				$('td', row).unbind('click');
+				$('td', row).bind('click', () => {
+					this.editorToggle = true;
+					self.fillEditor("event", event_colDef, data);
+				});
+				return row;
+			}
 	    };
 		this.userdtOptions = {
-			"ordering": false,
-			"searching": false
+			ajax: this.userDataURL,
+			columns: user_colDef,
+			rowCallback: (row: Node, data: any[] | Object, index: number) => {
+				const self = this;
+				// Unbind first in order to avoid any duplicate handler
+				// (see https://github.com/l-lin/angular-datatables/issues/87)
+				$('td', row).unbind('click');
+				$('td', row).bind('click', () => {
+					this.editorToggle = true;
+					self.fillEditor("user", user_colDef, data);
+				});
+				return row;
+			}
 	    };
+	}
+
+	ngAfterViewInit(): void {
+		this.dtTrigger[0].next();
+		this.dtTrigger[1].next();
+	}
+
+	ngOnDestroy(): void {
+		// Do not forget to unsubscribe the event
+		this.dtTrigger[0].unsubscribe();
+		this.dtTrigger[1].unsubscribe();
 	}
 }

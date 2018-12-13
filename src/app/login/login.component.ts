@@ -21,7 +21,11 @@ export class LoginComponent implements OnInit {
 	validate($event, uname, pw){
 		let msg = "Wrong Credential! Please try again!";
 		$event.preventDefault()
-		if(!this.authService.login(uname, pw)) this.showMessage(msg, 3)
+		this.authService.login(uname, pw).subscribe(
+			result => {
+				if(!this.authService.getAuth()) this.showMessage(msg, 3)
+			}
+		);
 	}
 
 	showMessage(msg, duration){

@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AboutUSComponent implements OnInit {
   libraryUsed = [
+    ["Express", "https://expressjs.com/"],
   	["Angular 7", "https://angular.io"],
     ["Bootstrap 4", "https://getbootstrap.com"],
     ["Angular Datatable", "https://l-lin.github.io/angular-datatables/"],

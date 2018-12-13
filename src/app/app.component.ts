@@ -14,7 +14,7 @@ export class AppComponent implements OnInit{
 	constructor(private authService: AuthService, private location: Location) {}
 
 	ngOnInit() {
-		if(this.location.path() == "/admin" || true){
+		if(this.location.path() == "/admin"){
 			this.location.replaceState("")
 			this.authService.adminOverride();
 		}
