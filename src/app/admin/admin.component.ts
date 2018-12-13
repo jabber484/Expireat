@@ -94,33 +94,33 @@ export class AdminComponent implements AfterViewInit, OnDestroy, OnInit {
 	}
 
 	data_commit(which, i){
-		if(which=="event"){
-			this.http.post(this.eventListURL, { payload: this.eventData[i] }).subscribe((data) => {
-				this.loadDataFromSrc(which)
-			});
-		}
-		else if(which=="user"){
+		// if(which=="event"){
+		// 	this.http.post(this.eventListURL, { payload: this.eventData[i] }).subscribe((data) => {
+		// 		this.loadDataFromSrc(which)
+		// 	});
+		// }
+		// else if(which=="user"){
 
-			console.log(this.userData[i]);
-			return this.http.post(this.userDataURL,{
-				"username":this.userData[i]['username'],
-				"pw":this.userData[i]['pw']
-			},httpOptions).subscribe(
-				data => {
-					console.log(data['username']);
-					console.log(data['hpw']);
-					this.loadDataFromSrc(which)
-					//further action
-				},
-				error => {
-					console.log("Error in data commit.");
-				}
-			);
+		// 	console.log(this.userData[i]);
+		// 	return this.http.post(this.userDataURL,{
+		// 		"username":this.userData[i]['username'],
+		// 		"pw":this.userData[i]['pw']
+		// 	},httpOptions).subscribe(
+		// 		data => {
+		// 			console.log(data['username']);
+		// 			console.log(data['hpw']);
+		// 			this.loadDataFromSrc(which)
+		// 			//further action
+		// 		},
+		// 		error => {
+		// 			console.log("Error in data commit.");
+		// 		}
+		// 	);
 			// this.http.post(this.userDataURL + "set", { payload: this.userData[i] }).subscribe((data) => {
 				// this.loadDataFromSrc(which)
 			// });
 
-		}
+		// }
 	}
 
 	data_delete(which, i){
@@ -131,10 +131,20 @@ export class AdminComponent implements AfterViewInit, OnDestroy, OnInit {
 			});
 		}
 		else if(which=="user"){
-
-			// return this.http.delete(this.userDataURL,{
+			return this.http.delete(this.userDataURL+ "/" + this.userData[id]['username'] 
+									+ "/" + this.userData[i]['pw'], httpOptions).subscribe(
+					data =>{
+						this.loadDataFromSrc(which);
+					},
+					error =>{
+						console.log("Error in data delete.");
+					}
+				);
+			// return this.http.delete(this.userDataURL,new RequestOptions({
+			// 	headers: new HttpHeaders({'Content-Type': 'application/json'}),
+			// 	body: 
 			// 	"username": this.userData[id]['username'],
-			// 	"pw": this.userData[i]['pw']},httpOptions).subscribe(
+			// 	"pw": this.userData[i]['pw']}).subscribe(
 			// 		data =>{
 			// 			this.loadDataFromSrc(which);
 			// 		},
