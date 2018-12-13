@@ -17,7 +17,7 @@ export class AdminComponent implements OnInit {
 	fileToUpload: File = null;
 
 	// sample
-
+	host = "http://localhost:8080";
 	eventListURL = "/assets/eventList_sample.json";
 	// userDataURL = "/assets/userData_sample.json";
 	CSVsampleURL = "/assets/userData_sample.json";

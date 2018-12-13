@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import { 	Observable, of } from 'rxjs';
 
 const httpOptions ={
 	headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -29,7 +29,7 @@ export class AuthService {
 	login(uname,pw) {
 		console.log(uname, pw)
 		const url = `${this.userUrl}/login`;
-		return this.http.post(url,{
+		return this.http.post(url,{	
 			"uname": uname,
 			"pw": pw
 		},httpOptions).subscribe(
