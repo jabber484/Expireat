@@ -50,8 +50,27 @@ export class EventComponent implements OnDestroy, OnInit {
 	host = "http://localhost:8080";
 	commentURL= "/event/comment";
 	eventListURL = "/event";
+	favListURL = "/user/fav";
 
   	constructor(private authService: AuthService, private http: HttpClient) {}
+
+  	fav(){
+  		if(this.authService.favList.indexOf(this.currentEventData["eid"]) != -1){
+  			this.authService.favList = this.authService.favList.filter(item => item !== this.currentEventData["eid"])
+  		} else {
+  			this.authService.favList.push(this.currentEventData["eid"])
+  		}
+  		// sync to db
+  		this.http.post(this.host + this.favListURL, 
+		{
+			uid: this.authService.id,
+			list: this.authService.favList
+		}).subscribe((data) => console.log(data))
+		
+		this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
+	  		dtInstance.draw();
+		})
+  	}
 
   	showCommentBox(data){
   		// reset
@@ -94,9 +113,14 @@ export class EventComponent implements OnDestroy, OnInit {
 	ngOnInit() {
 		this.dtOptions = {
 			ajax: this.host + this.eventListURL,
-			order: [[ 2, "desc" ]],
+			order: [[ 3, "desc" ]],
 			autoWidth: false,
-			columns: [{
+			columns: [
+			{
+				title: 'Event ID',
+				data: 'eid',
+				visible: false,
+			}, {	
 				title: 'Activity name',
 				data: 'name'
 			}, {
@@ -126,8 +150,8 @@ export class EventComponent implements OnDestroy, OnInit {
 	    };
 
 		$.fn['dataTable'].ext.search.push((settings, data, dataIndex) => {
-
-		  return !this.showFavList;
+			
+			return this.authService.favList.indexOf(data[0]) != -1 || !this.showFavList
 		});
   	}
 

@@ -18,6 +18,7 @@ export class AuthService {
 
 	username = ""
 	id = ""
+	favList = []
 
 	constructor(
 		private http: HttpClient
@@ -40,7 +41,8 @@ export class AuthService {
 				console.log(data);
 				this.isAuth = data['isAuth'];
 				this.username = data['userName'];
-				this.id = data['userId'];
+				this.id = data['_id'];
+				this.favList = data['favList'];
 			}
 		))
 	}

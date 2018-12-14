@@ -1,7 +1,7 @@
 <div [ngClass]="{'d-none': commentBoxToggle}">
 	<h1 class="section-title">Event List</h1>
 	<div class="section-subtitle"><kbd><kbd>Click</kbd></kbd> column to sort, <kbd><kbd>Shift</kbd> + <kbd>Click</kbd></kbd> to sort multiple column</div>
-	<button class="btn btn-info mb-3 w-100" (click)="toggle()"> Toggle Fav List</button>
+	<button class="btn btn-info mb-3 w-100" *ngIf="!authService.isAdmin" (click)="toggle()"> {{showFavList ? "Hide" : "Show"}} Fav List</button>
 	<table datatable [dtOptions]="dtOptions" class="table"></table>
 </div>
 
@@ -14,7 +14,7 @@
 		<div class="mb-3">{{currentEventData[col['data']]}}</div>
 	</div>
 
-	<button class="w-100 btn btn-danger">Add to favourite</button>
+	<button class="w-100 btn btn-info" *ngIf="!authService.isAdmin" (click)="fav()"> {{authService.favList.indexOf(currentEventData["eid"]) == -1 ? "Add to" : "Remove from"}} favourite</button>
 
 	<h1 class="section-title">Comment</h1>
 	<div class="section-subtitle"></div>
