@@ -1,86 +1,66 @@
-<h1 class="section-title" id="eventdata">Event Data</h1>
-<div class="section-subtitle">CRUD event data</div>
-<div class="section-content">
-	<button class="mb-3 w-100 btn btn-info d-sm-none" (click)="data_add('event')"><i class="fas fa-calendar-plus"></i> Add Event</button>
-	<button class="float-right btn btn-info d-none d-sm-block" (click)="data_add('event')"><i class="fas fa-calendar-plus"></i> Add Event</button>
-	<table datatable [dtOptions]="eventdtOptions" class="table">
-	  <thead>
-	    <tr>
-	      <th scope="col">Activity name</th>
-	      <th scope="col">Type</th>
-	      <th scope="col">Date</th>
-	      <th scope="col">Venue</th>
-	      <th scope="col">Quota</th>
-	      <th scope="col">Action</th>
-	    </tr>
-	  </thead>
-	  <tbody>
-	  	<tr *ngFor="let data of eventData; let i = index">
-	      <td *ngFor="let key of objectKeys(data)"><input value="{{data[key]}}" class="form-control" placeholder="Enter Value" (keyup)="eventData[i][key] = $event.target.value;"></td>
-  	      <td>
-	      	<button class="btn btn-success mr-1" (click)="data_commit('event',i)"><i class="fas fa-sync"></i><span class="d-none d-sm-inline-block ml-1"> Commit</span></button>
-	      	<button class="btn btn-danger" (click)="data_delete('event',i)"><i class="fas fa-cross"></i><span class="d-none d-sm-inline-block ml-1"> Delete</span></button>
-	      </td>
-	    </tr>
-	  </tbody>
-	</table>
-</div>
-
-<h1 class="section-title" id="userdata">User Data</h1>
-<div class="section-subtitle">CRUD user data</div>
-<div class="section-content">
-	<button class="mb-3 w-100 btn btn-info d-sm-none" (click)="data_add('user')"><i class="fas fa-user-plus"></i> Add User</button>
-	<button class="float-right btn btn-info d-none d-sm-block" (click)="data_add('user')"><i class="fas fa-user-plus"></i> Add User</button>
-	<table datatable [dtOptions]="userdtOptions" class="table">
-	  <thead>
-	    <tr>
-	      <th scope="col">Username</th>
-	      <th scope="col">Password Hash</th>
-	      <th scope="col">Action</th>
-	    </tr>
-	  </thead>
-	  <tbody>
-	  	<tr *ngFor="let data of userData; let i = index">
-	      <td *ngFor="let key of objectKeys(data)"><input value="{{data[key]}}" class="form-control" placeholder="Enter Value" (keyup)="userData[i][key] = $event.target.value;">
-	      </td>
-	      <td>
-	      	<button class="btn btn-success mr-1" (click)="data_commit('user',i)"><i class="fas fa-sync"></i><span class="d-none d-sm-inline-block ml-1"> Commit</span></button>
-	      	<button class="btn btn-danger" (click)="data_delete('user',i)"><i class="fas fa-cross"></i><span class="d-none d-sm-inline-block ml-1"> Delete</span></button>
-	      </td>
-	    </tr>
-	  </tbody>
-	</table>
-</div>
-
-<h1 class="section-title" id="flushdata">Flush Data</h1>
-<div class="section-subtitle">Reload events from the online dataset</div>
-<div class="section-content">
-	<div>
-		<div class="card bg-danger text-white">
-		  <div class="card-body">
-		    <h5 class="card-title">Warning</h5>
-		    <p class="card-text">The effect will be irreversible.</p>
-			<button class="btn btn-dark" (click)="flush_eventdata()">Continue</button>
-		  </div>
-		</div>
+<div [ngClass]="{'d-none': editorToggle}">
+	<h1 class="section-title" id="eventdata">Event Data</h1>
+	<div class="section-subtitle">CRUD event data</div>
+	<div class="section-content">
+		<button class="mb-3 w-100 btn btn-info d-sm-none" (click)="data_add('event')"><i class="fas fa-calendar-plus"></i> Add Event</button>
+		<button class="float-right btn btn-info d-none d-sm-block" (click)="editorToggle = true"><i class="fas fa-calendar-plus"></i> Add Event</button>
+		<table datatable [dtOptions]="eventdtOptions" [dtTrigger]="dtTrigger[0]"class="table"></table>
 	</div>
-</div>
 
-<h1 class="section-title" id="uploadcsv">Upload CSV</h1>
-<div class="section-subtitle">Obtain event data from CSV file</div>
-<div class="section-content">
-	<div>
-		<div class="card bg-danger text-white">
-		  <div class="card-body">
-		    <h5 class="card-title">Warning</h5>
-		    <p class="card-text">This will override the current database.</p>
-			<a class="btn btn-info mb-3" _target="_blank" href="{{CSVsampleURL}}">Download CSV Sample</a>
-			<!-- <button class="btn btn-dark mr-2" (click)="uploadCSV()">Upload File</button> -->
-			<div class="custom-file">
-			  <input type="file" class="custom-file-input" id="customFile" (click)="fileToUpload = null" (change)="uploadCSV($event.target.files)">
-			  <label class="custom-file-label" for="customFile">{{ fileToUpload == null ? "Choose file" : fileToUpload.name}}</label>
+
+	<h1 class="section-title" id="userdata">User Data</h1>
+	<div class="section-subtitle">CRUD user data</div>
+	<div class="section-content">
+		<button class="mb-3 w-100 btn btn-info d-sm-none" (click)="data_add('user')"><i class="fas fa-user-plus"></i> Add User</button>
+		<button class="float-right btn btn-info d-none d-sm-block" (click)="editorToggle = true"><i class="fas fa-user-plus"></i> Add User</button>
+		<table datatable [dtOptions]="userdtOptions" [dtTrigger]="dtTrigger[1]"class="table"></table>
+	</div>
+
+
+	<h1 class="section-title" id="flushdata">Flush Data</h1>
+	<div class="section-subtitle">Reload events from the online dataset.</div>
+	<div class="section-content">
+		<div>
+			<div class="card bg-danger text-white">
+			  <div class="card-body">
+			    <h5 class="card-title">Warning</h5>
+			    <p class="card-text">The effect will be irreversible. This might take a while.</p>
+				<button class="btn btn-dark" (click)="flush_eventdata()">Continue</button>
+			  </div>
 			</div>
-		  </div>
 		</div>
 	</div>
+
+	<h1 class="section-title" id="uploadcsv">Upload CSV</h1>
+	<div class="section-subtitle">Obtain event data from CSV file</div>
+	<div class="section-content">
+		<div>
+			<div class="card bg-danger text-white">
+			  <div class="card-body">
+			    <h5 class="card-title">Warning</h5>
+			    <p class="card-text">This will override the current database.</p>
+				<a class="btn btn-info mb-3" _target="_blank" href="{{CSVsampleURL}}">Download CSV Sample</a>
+				<!-- <button class="btn btn-dark mr-2" (click)="uploadCSV()">Upload File</button> -->
+				<div class="custom-file">
+				  <input type="file" class="custom-file-input" id="customFile" (click)="fileToUpload = null" (change)="uploadCSV($event.target.files)">
+				  <label class="custom-file-label" for="customFile">{{ fileToUpload == null ? "Choose file" : fileToUpload.name}}</label>
+				</div>
+			  </div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div [ngClass]="{'d-none': !editorToggle}">
+	<h1 class="section-title" id="eventlist">Data Editor</h1>
+	<div class="section-subtitle"><a href="#" (click)="editorToggle = false">< close</a></div>	
+
+	<div *ngFor="let key of objectKeys(editorData)">{{key}}{{editorData[key]}}</div>
+
+	<button class="btn btn-success mr-1" (click)="data_commit('user',i)">
+		<i class="fas fa-sync"></i><span class="d-none d-sm-inline-block ml-1"> Commit</span>
+	</button>
+	<button class="btn btn-danger" (click)="data_delete('user',i)">
+		<i class="fas fa-cross"></i><span class="d-none d-sm-inline-block ml-1"> Delete</span>
+	</button>
 </div>

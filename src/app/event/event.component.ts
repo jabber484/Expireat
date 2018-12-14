@@ -23,7 +23,6 @@ export class EventComponent implements OnInit {
 
   		// load event stuff
   		this.currentEventName = name;
-
   		this.commentBoxToggle = true;
   	}
 
@@ -59,14 +58,14 @@ export class EventComponent implements OnInit {
 				width: "20%"
 			}],
 			rowCallback: (row: Node, data: any[] | Object, index: number) => {
-			const self = this;
-			// Unbind first in order to avoid any duplicate handler
-			// (see https://github.com/l-lin/angular-datatables/issues/87)
-			$('td', row).unbind('click');
-			$('td', row).bind('click', () => {
-				self.eventCLickHandler(data);
-			});
-			return row;
+				const self = this;
+				// Unbind first in order to avoid any duplicate handler
+				// (see https://github.com/l-lin/angular-datatables/issues/87)
+				$('td', row).unbind('click');
+				$('td', row).bind('click', () => {
+					self.eventCLickHandler(data);
+				});
+				return row;
 			}
 	    };
   	}
