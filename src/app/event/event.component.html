@@ -1,6 +1,7 @@
 <div [ngClass]="{'d-none': commentBoxToggle}">
 	<h1 class="section-title">Event List</h1>
 	<div class="section-subtitle"><kbd><kbd>Click</kbd></kbd> column to sort, <kbd><kbd>Shift</kbd> + <kbd>Click</kbd></kbd> to sort multiple column</div>
+	<button class="btn btn-info mb-3 w-100" (click)="toggle()"> Toggle Fav List</button>
 	<table datatable [dtOptions]="dtOptions" class="table"></table>
 </div>
 

@@ -1,15 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { HttpClient , HttpHeaders } from '@angular/common/http';
+import { DataTableDirective } from 'angular-datatables';
 
 @Component({
   selector: 'app-event',
   templateUrl: './event.component.html',
   styleUrls: ['./event.component.css']
 })
-export class EventComponent implements OnInit {
+export class EventComponent implements OnDestroy, OnInit {
 	dtOptions: DataTables.Settings = {};
+	@ViewChild(DataTableDirective)
+ 	datatableElement: DataTableDirective;
 	objectKeys = Object.keys;
+
+	showFavList = false;
 
 	commentLoading = true
 	commentBuffer = null
@@ -119,5 +124,22 @@ export class EventComponent implements OnInit {
 				return row;
 			}
 	    };
+
+		$.fn['dataTable'].ext.search.push((settings, data, dataIndex) => {
+
+		  return !this.showFavList;
+		});
   	}
+
+  	ngOnDestroy(): void {
+		$.fn['dataTable'].ext.search.pop();
+	}
+
+	toggle(): void {
+		this.showFavList = !this.showFavList
+		this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
+	  		dtInstance.draw();
+		}
+	);
+  }
 }
