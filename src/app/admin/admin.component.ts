@@ -40,7 +40,8 @@ export class AdminComponent implements OnInit {
 	userData = [];
 	userDataTemplate = {
       "username": null,
-      "pw": null
+      "pw": null,
+      "id": null
 	};
 
 	uploadCSV(files) {
@@ -100,7 +101,8 @@ export class AdminComponent implements OnInit {
 			console.log(this.userData[i]);
 			return this.http.post(this.userDataURL,{
 				"username":this.userData[i]['username'],
-				"pw":this.userData[i]['pw']
+				"pw":this.userData[i]['pw'],
+				"id":this.userData[i]['id']
 			},httpOptions).subscribe(
 				data => {
 					console.log(data['username']);

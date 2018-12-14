@@ -41,7 +41,8 @@
 	  </thead>
 	  <tbody>
 	  	<tr *ngFor="let data of userData; let i = index">
-	      <td *ngFor="let key of objectKeys(data)"><input value="{{data[key]}}" class="form-control" placeholder="Enter Value" (keyup)="userData[i][key] = $event.target.value;"></td>
+	      <td *ngFor="let key of objectKeys(data)"><input value="{{data[key]}}" class="form-control" placeholder="Enter Value" (keyup)="userData[i][key] = $event.target.value;">
+	      </td>
 	      <td>
 	      	<button class="btn btn-success mr-1" (click)="data_commit('user',i)"><i class="fas fa-sync"></i><span class="d-none d-sm-inline-block ml-1"> Commit</span></button>
 	      	<button class="btn btn-danger" (click)="data_delete('user',i)"><i class="fas fa-cross"></i><span class="d-none d-sm-inline-block ml-1"> Delete</span></button>
