@@ -36,7 +36,7 @@ Xaviera: Backend
 #### Basic How-To
 
 ##### Front-end
-Structure
+###### Structure
 * Auth Service hold user info at background
 * Page swictch according to auth status
 * Each element is a separtate module
