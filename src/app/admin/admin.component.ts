@@ -21,12 +21,47 @@ export class AdminComponent implements AfterViewInit, OnDestroy, OnInit {
 	@ViewChildren(DataTableDirective)
 	dtElements: QueryList<DataTableDirective>;
 	dtTrigger: Subject<DataTableDirective>[] = [new Subject(),new Subject()];
+	event_colDef = [
+		{
+			title: 'Event ID',
+			data: 'eid',
+			visible: false,
+            searchable: false
+		}, {			
+			title: 'Activity name',
+			data: 'name'
+		}, {
+			title: 'Type',
+			data: 'type'
+		}, {
+			title: 'Date',
+			data: 'date'
+		}, {
+			title: 'Venue',
+			data: 'venue'
+		}, {
+			title: 'Contact',
+			data: 'contact',
+			width: "20%"
+		}
+	]
+	user_colDef = [
+		// {
+		// 	title: 'User ID',
+		// 	data: ''
+		// }, 
+		{
+			title: 'Username',
+			data: 'username'
+		}, {
+			title: 'Password',
+			data: 'pw'
+		}
+	]
 
 	// sample
 	host = "http://localhost:8080";
-	// eventListURL = "/assets/eventList_sample.json";
-	// userDataURL = "/assets/userData_sample.json";
-	CSVsampleURL = "/assets/userData_sample.json";
+	CSVsampleURL = "/assets/csv_sample.csv";
 
 	eventListURL = "/event";
 	private userDataURL = 'http://localhost:8080/user';
@@ -35,19 +70,8 @@ export class AdminComponent implements AfterViewInit, OnDestroy, OnInit {
 
 	editorToggle = false
 	editorData = {}
-	// eventData = [];
-	// eventDataTemplate = {
-	// 	"name": null,
-	// 	"type": null,
-	// 	"date": null,
-	// 	"venue": null,
-	// 	"contact": null
-	// };
-	// userData = [];
-	// userDataTemplate = {
- //      "username": null,
- //      "pw": null
-	// };
+	editorCol = []
+	editorTarget = 0
 
 	uploadCSV(files) {
 		// Upload
@@ -57,7 +81,7 @@ export class AdminComponent implements AfterViewInit, OnDestroy, OnInit {
 
 		this.http.post(this.uploadCSVURL, formData).subscribe((data) => {
 			console.log(data);
-			this.loadDataFromSrc("event")
+			this.loadDataFromSrc(0)
 		});
 	}
 
@@ -65,81 +89,70 @@ export class AdminComponent implements AfterViewInit, OnDestroy, OnInit {
 		// Flush
 		this.http.get(this.flushDataURL).subscribe((data) => {
 			// Reload
-			this.loadDataFromSrc()
+			this.loadDataFromSrc(0)
 		});
 	}
 
-	data_add(which){
-
-
-		// console.log(this.eventData, this.userData);
-		// if(which=="event"){
-		// 	this.eventData.push(Object.assign({}, this.eventDataTemplate))
-		// }
-		// else if(which=="user"){
-		// 	this.userData.push(Object.assign({}, this.userDataTemplate))
-		// }
-	}
-	
 	// Data_get
-	loadDataFromSrc(which=null) {
+	loadDataFromSrc(target=null) {
+		document.documentElement.scrollTop = 0
 		this.dtElements.forEach((dtElement: DataTableDirective, index: number) => {
 		  	dtElement.dtInstance.then((dtInstance: any) => {
-		  		dtInstance.destroy();
-				// Call the dtTrigger to rerender again
-				this.dtTrigger[index].next();
-				console.log("Reload" + index)
+		  		if(index == this.editorTarget || index == target){
+			  		dtInstance.destroy();
+					// Call the dtTrigger to rerender again
+					this.dtTrigger[index].next();
+					console.log("Reload" + index)
+				}
 		  	});
 		});
 	}
 
-	data_commit(which, i){
-		// if(which=="event"){
-		// 	this.http.post(this.eventListURL, { payload: this.eventData[i] }).subscribe((data) => {
-		// 		this.loadDataFromSrc(which)
-		// 	});
-		// }
-		// else if(which=="user"){
-
-		// 	console.log(this.userData[i]);
-		// 	return this.http.post(this.userDataURL,{
-		// 		"username":this.userData[i]['username'],
-		// 		"pw":this.userData[i]['pw']
-		// 	},httpOptions).subscribe(
-		// 		data => {
-		// 			console.log(data['username']);
-		// 			console.log(data['hpw']);
-		// 			this.loadDataFromSrc(which)
-		// 			//further action
-		// 		},
-		// 		error => {
-		// 			console.log("Error in data commit.");
-		// 		}
-		// 	);
-			// this.http.post(this.userDataURL + "set", { payload: this.userData[i] }).subscribe((data) => {
-				// this.loadDataFromSrc(which)
-			// });
-
-		// }
+	data_commit(){
+		console.log(this.editorData);
+		this.http.post([this.eventListURL, this.userDataURL][this.editorTarget], this.editorData, httpOptions)
+		 	.subscribe(
+				data => {
+					this.editorToggle = false;
+					this.loadDataFromSrc()
+					console.log("Data committed.");
+					//further action
+				},
+				error => {
+					console.log("Error in data commit.");
+				}
+			);
 	}
 
-	data_delete(which, i){
-		let id = i;
-		if(which=="event"){
-			this.http.delete(this.eventListURL + "/" + id).subscribe((data) => {
-				this.loadDataFromSrc(which)
-			});
+	data_delete(){
+		let url = ""
+		if(this.editorTarget == 0) {
+			url = this.eventListURL + "/" + this.editorData["eid"]
+		} else {
+
 		}
-		else if(which=="user"){
-			return this.http.delete(this.userDataURL+ "/" + this.userData[id]['username'] 
-									+ "/" + this.userData[i]['pw'], httpOptions).subscribe(
-					data =>{
-						this.loadDataFromSrc(which);
-					},
-					error =>{
-						console.log("Error in data delete.");
-					}
-				);
+
+		this.http.delete(url, httpOptions)
+		 	.subscribe(
+				data => {
+					this.editorToggle = false;
+					this.loadDataFromSrc()
+					console.log("Data deleted.");
+				},
+				error => {
+					console.log("Error in data deletion.");
+				}
+			);
+
+			// return this.http.delete(this.userDataURL+ "/" + this.userData[id]['username'] 
+			// 						+ "/" + this.userData[i]['pw'], httpOptions).subscribe(
+			// 		data =>{
+			// 			this.loadDataFromSrc(which);
+			// 		},
+			// 		error =>{
+			// 			console.log("Error in data delete.");
+			// 		}
+			// 	);
 			// return this.http.delete(this.userDataURL,new RequestOptions({
 			// 	headers: new HttpHeaders({'Content-Type': 'application/json'}),
 			// 	body: 
@@ -152,7 +165,6 @@ export class AdminComponent implements AfterViewInit, OnDestroy, OnInit {
 			// 			console.log("Error in data delete.");
 			// 		}
 			// 	);
-			};
 			// console.log(id);
 			// this.http.delete(this.userDataURL + "delete/" + id).subscribe((data) => {
 			// 	this.loadDataFromSrc(which)
@@ -161,8 +173,11 @@ export class AdminComponent implements AfterViewInit, OnDestroy, OnInit {
 
 	}
 
-	fillEditor(which, colDef, data){
-		this.editorData = data;
+	fillEditor(which, data={}){
+		this.editorToggle = true;
+		this.editorCol = [this.event_colDef, this.user_colDef][which]
+		this.editorTarget = which
+		this.editorData = data
 	}
 
 	constructor(private http: HttpClient) {
@@ -172,63 +187,28 @@ export class AdminComponent implements AfterViewInit, OnDestroy, OnInit {
 	}
 
 	ngOnInit(): void {
-		var event_colDef = [
-			{
-				title: 'Activity name',
-				data: 'name'
-			}, {
-				title: 'Type',
-				data: 'type'
-			}, {
-				title: 'Date',
-				data: 'date'
-			}, {
-				title: 'Venue',
-				data: 'venue'
-			}, {
-				title: 'Contact',
-				data: 'contact',
-				width: "20%"
-			}
-		]
-		var user_colDef = [
-			{
-				title: 'Username',
-				data: 'username'
-			}, {
-				title: 'Password',
-				data: 'pw'
-			}
-		]
-
 		this.eventdtOptions = {
-			order: [[ 2, "desc" ]],
+			order: [[ 3, "desc" ]],
 			autoWidth: false,
 			ajax: this.eventListURL,
-			columns: event_colDef,
+			columns: this.event_colDef,
 			rowCallback: (row: Node, data: any[] | Object, index: number) => {
 				const self = this;
-				// Unbind first in order to avoid any duplicate handler
-				// (see https://github.com/l-lin/angular-datatables/issues/87)
 				$('td', row).unbind('click');
 				$('td', row).bind('click', () => {
-					this.editorToggle = true;
-					self.fillEditor("event", event_colDef, data);
+					self.fillEditor(0, data);
 				});
 				return row;
 			}
 	    };
 		this.userdtOptions = {
 			ajax: this.userDataURL,
-			columns: user_colDef,
+			columns: this.user_colDef,
 			rowCallback: (row: Node, data: any[] | Object, index: number) => {
 				const self = this;
-				// Unbind first in order to avoid any duplicate handler
-				// (see https://github.com/l-lin/angular-datatables/issues/87)
 				$('td', row).unbind('click');
 				$('td', row).bind('click', () => {
-					this.editorToggle = true;
-					self.fillEditor("user", user_colDef, data);
+					self.fillEditor(1, data);
 				});
 				return row;
 			}

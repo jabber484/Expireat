@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../auth.service';
+import { HttpClient , HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-event',
@@ -7,32 +9,81 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EventComponent implements OnInit {
 	dtOptions: DataTables.Settings = {};
+	objectKeys = Object.keys;
 
+	commentLoading = true
 	commentBuffer = null
+
+	postCommentBuffer = []
 	commentBoxToggle = false
-	currentEventName = ""
+	currentEventData = {}
+	event_colDef = [
+		{
+			title: 'Event ID',
+			data: 'eid',
+			visible: false,
+            searchable: false
+		}, {			
+			title: 'Activity name',
+			data: 'name'
+		}, {
+			title: 'Type',
+			data: 'type'
+		}, {
+			title: 'Date',
+			data: 'date'
+		}, {
+			title: 'Venue',
+			data: 'venue'
+		}, {
+			title: 'Contact',
+			data: 'contact',
+			width: "20%"
+		}
+	]
 
 	host = "http://localhost:8080";
+	commentURL= "/event/comment";
 	eventListURL = "/event";
 
-  	constructor() { }
+  	constructor(private authService: AuthService, private http: HttpClient) {}
 
-  	showCommentBox(name){
+  	showCommentBox(data){
   		// reset
   		this.commentBuffer = null;
+		this.commentLoading = true
 
   		// load event stuff
-  		this.currentEventName = name;
+  		this.currentEventData = data;
   		this.commentBoxToggle = true;
+  		this.http.get(this.host + this.commentURL+"/"+this.currentEventData["eid"]).subscribe((data) => {
+			this.commentLoading = false
+			this.postCommentBuffer = data['data']
+			console.log(data);
+		});
   	}
 
   	submitComment(){
+		this.commentLoading = true
   		console.log(this.commentBuffer)
+  		this.http.post(this.host + this.commentURL, 
+  			{
+  				eid: this.currentEventData["eid"],
+  				author: this.authService.username,
+  				content: this.commentBuffer,
+  			})
+  		.subscribe((data) => {
+			this.http.get(this.host + this.commentURL+"/"+this.currentEventData["eid"]).subscribe((data) => {
+				this.postCommentBuffer = data['data']
+				this.commentBuffer = null
+				this.commentLoading = false
+			});
+		});
   	}
 
-  	eventCLickHandler(info: any): void {
+  	eventCLickHandler(data: any): void {
 		this.commentBoxToggle = true
-		this.showCommentBox(info.name) // should be id
+		this.showCommentBox(data)
 	}
 
 	ngOnInit() {
@@ -69,5 +120,4 @@ export class EventComponent implements OnInit {
 			}
 	    };
   	}
-
 }
