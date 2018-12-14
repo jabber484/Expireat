@@ -16,10 +16,13 @@ export class AboutUSComponent implements OnInit {
   ]
 
   todoList = [
-    ["Backend", "Whole thing"],
-    ["CRUD Trigger", "Admin page CRUD"],
-    ["Online Database", "Serializate online data"],
+    // ["Backend", "Whole thing"],
+    // ["CRUD Trigger", "Admin page CRUD"],
+    // ["Online Database", "Serializate online data"],
     ["Visible Response", "Visible Ajax result"],
+    ["Data cache", "Store result after Ajax"],
+    ["Fav Event", ""],
+    ["URL Direct", ""],
   ]
 
   constructor() { }
