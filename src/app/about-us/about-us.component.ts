@@ -8,6 +8,9 @@ import { Component, OnInit } from '@angular/core';
 export class AboutUSComponent implements OnInit {
   libraryUsed = [
     ["Express", "https://expressjs.com/"],
+    ["Nodejs", "https://nodejs.org/en/"],
+    ["Mongodb", "https://www.mongodb.com/"],
+    ["Mongoose", "https://mongoosejs.com/"],
   	["Angular 7", "https://angular.io"],
     ["Bootstrap 4", "https://getbootstrap.com"],
     ["Angular Datatable", "https://l-lin.github.io/angular-datatables/"],
@@ -21,6 +24,7 @@ export class AboutUSComponent implements OnInit {
     // ["Online Database", "Serializate online data"],
     ["Visible Response", "Visible Ajax result"],
     ["Data cache", "Store result after Ajax"],
+    ["Admin System (Not required)", "Enhance security"],
     ["Fav Event", ""],
     ["URL Direct", ""],
   ]
