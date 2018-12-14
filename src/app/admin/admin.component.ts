@@ -65,6 +65,7 @@ export class AdminComponent implements AfterViewInit, OnDestroy, OnInit {
 
 	eventListURL = "/event";
 	private userDataURL = 'http://localhost:8080/user';
+
 	flushDataURL = "/event/flush";
 	uploadCSVURL = "/event/csv";
 
@@ -72,6 +73,7 @@ export class AdminComponent implements AfterViewInit, OnDestroy, OnInit {
 	editorData = {}
 	editorCol = []
 	editorTarget = 0
+
 
 	uploadCSV(files) {
 		// Upload
