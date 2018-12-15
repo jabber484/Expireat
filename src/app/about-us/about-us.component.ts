@@ -25,8 +25,7 @@ export class AboutUSComponent implements OnInit {
     ["Visible Response", "Visible Ajax result"],
     ["Data cache", "Store result after Ajax"],
     ["Admin System (Not required)", "Enhance security"],
-    ["Fav Event", ""],
-    ["URL Direct", ""],
+    ["URL Direct", "Jump to section on load"],
   ]
 
   constructor() { }
