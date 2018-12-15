@@ -11,7 +11,7 @@
 
 	<div *ngFor="let col of event_colDef">
 		<h6 class="font-weight-bold">{{col['title']}}</h6>
-		<div class="mb-3">{{currentEventData[col['data']]}}</div>
+		<div class="mb-3">{{currentEventData[col['data']] == "" ? "N/A" : currentEventData[col['data']]}}</div>
 	</div>
 
 	<button class="w-100 btn btn-info" *ngIf="!authService.isAdmin" (click)="fav()"> {{authService.favList.indexOf(currentEventData["eid"]) == -1 ? "Add to" : "Remove from"}} favourite</button>

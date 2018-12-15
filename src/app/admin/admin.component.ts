@@ -131,7 +131,7 @@ export class AdminComponent implements AfterViewInit, OnDestroy, OnInit {
 		if(this.editorTarget == 0) {
 			url = this.eventListURL + "/" + this.editorData["eid"]
 		} else {
-
+			url = this.host + "/user/" + this.editorData["username"] + "/" + this.editorData["pw"]
 		}
 
 		this.http.delete(url, httpOptions)

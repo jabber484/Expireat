@@ -17,7 +17,7 @@ export class UserActionComponent implements OnInit {
 	siteNavigation = {
 		"EVENT CATALOG": ["Event List"],
 		"ADMIN FEATURE": ["Event data","User data", "Flush Data", "Upload CSV"],
-		"ABOUT THIS PROJECT": ["Workload Distribution", "Basic How-To", "Data Schemas", "Frameworks & Libraries", "Academic Honesty", "To-Do"]
+		"ABOUT THIS PROJECT": ["Workload Distribution", "Basic How-To", "Data Schemas", "Frameworks & Libraries", "Academic Honesty", "Improvement"]
 	}
 
 	constructor(private authService: AuthService) {
